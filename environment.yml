@@ -5,6 +5,8 @@ dependencies:
   - jupyter=1.0
   - nbformat
   - nbconvert
-  - numpy=1.18
-  - requests=2.24.0
+  - keras
+  - tensorflow
+  - scikit-learn
+  - matplotlib
   - pytest
