@@ -7,6 +7,9 @@ dependencies:
   - nbconvert
   - keras
   - tensorflow
+  - pandas
+  - scipy
   - scikit-learn
   - matplotlib
+  - seaborn
   - pytest
