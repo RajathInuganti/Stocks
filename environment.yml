@@ -10,4 +10,5 @@ dependencies:
   - scipy
   - scikit-learn
   - matplotlib
+  - seaborn
   - pytest
