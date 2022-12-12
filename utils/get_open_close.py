@@ -4,40 +4,7 @@
 
 import pandas as pd
 
-symbols = pd.read_csv('../dataset/symbols_valid_meta.csv')
-stock_paths = {}
-stock_dfs = {}
-
-
-symbols_list = list(symbols['Symbol'])
-
-
-for symbol in symbols_list:
-    if symbol not in stock_paths:
-        stock_paths[symbol] = f'../dataset/stocks/{symbol}.csv'
-        
-        
-for symbol, stock_path in stock_paths.items():
-    if symbol not in stock_dfs:
-        try:
-            stock_dfs[symbol] = pd.read_csv(stock_path)
-        except:
-            continue        
-
-# clean data
-
-# turn all date columns to datetime
-for stock_name, stock_df in stock_dfs.items():
-    stock_df['Date'] = pd.to_datetime(stock_df["Date"])
-    
-
-# remove rows with NA values
-for stock_name, stock_df in stock_dfs.items():
-    stock_df.dropna(how='any', inplace=True)
-
-
 # helper functions
-
 
 def get_rows_within_date_range(df, start_date, end_date):
     return df.loc[((df['Date'] >= start_date) & (df['Date'] <= end_date))]
@@ -58,8 +25,38 @@ def not_compatible(df, start_date, end_date):
         return False
 
 
-
 def populate_values_efficient(start_date, end_date):
+
+    # load data and metadata
+    symbols = pd.read_csv('../dataset/symbols_valid_meta.csv')
+    stock_paths = {}
+    stock_dfs = {}
+
+
+    symbols_list = list(symbols['Symbol'])
+
+    for symbol in symbols_list:
+        if symbol not in stock_paths:
+            stock_paths[symbol] = f'../dataset/stocks/{symbol}.csv'
+            
+            
+    for symbol, stock_path in stock_paths.items():
+        if symbol not in stock_dfs:
+            try:
+                stock_dfs[symbol] = pd.read_csv(stock_path)
+            except:
+                continue        
+
+    # clean data
+
+    # turn all date columns to datetime
+    for stock_name, stock_df in stock_dfs.items():
+        stock_df['Date'] = pd.to_datetime(stock_df["Date"])
+        
+
+    # remove rows with NA values
+    for stock_name, stock_df in stock_dfs.items():
+        stock_df.dropna(how='any', inplace=True)
 
     # CAT is the stock with the most rows, so it encompasses all date ranges
     df = get_rows_within_date_range(stock_dfs['CAT'], start_date, end_date)
