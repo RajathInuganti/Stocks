@@ -51,3 +51,6 @@ def kmeans_automated(start_date, end_date, k=5, max_iter=1000):
     }).sort_values(by=['clusters'], axis=0)
     
     return results
+
+def get_symbols_from_cluster(clusters, cluster_num):
+    return clusters[clusters['clusters'] == cluster_num]['symbols']
